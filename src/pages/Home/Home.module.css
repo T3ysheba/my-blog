@@ -30,24 +30,6 @@
   flex-direction: column;
 }
 
-.button{
-  cursor: pointer;
-  padding: 8px 24px;
-  border-radius: 8px;
-  border: 0;
-  color: white;
-  transition:  0.3s;
-  background-color:grey;
-}
-
-.button:hover{
-  background-color: black;
-}
-
-.button:disabled{
-  opacity: 0.5;
-}
-
 .button_container{
   gap: 12px;
   display: flex;
@@ -55,9 +37,10 @@
   align-items: center;
 }
 
-.input{
-  padding: 8px 12px;
-  border-radius: 8px;
-  outline: none;
-  border: 1px solid grey;
+.search {
+  gap: 16px;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
+

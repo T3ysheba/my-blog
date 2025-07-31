@@ -1,0 +1,18 @@
+.button{
+    cursor: pointer;
+    padding: 8px 24px;
+    border-radius: 8px;
+    border: 0;
+    color: white;
+    transition:  0.3s;
+    white-space: nowrap;
+    background-color:grey;
+}
+
+.button:hover{
+    background-color: black;
+}
+
+.button:disabled{
+    opacity: 0.5;
+}
