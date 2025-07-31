@@ -12,9 +12,6 @@ export default defineConfigWithVueTs(
   {
     name: 'app/files-to-lint',
     files: ['**/*.{ts,mts,tsx,vue}'],
-    plugins: {
-      vue,
-    },
     rules: {
       'vue/multi-word-component-names': 'off',
     },
