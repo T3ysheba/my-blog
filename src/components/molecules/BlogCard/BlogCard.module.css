@@ -1,0 +1,30 @@
+.post{
+  border-radius: 8px;
+  padding: 24px;
+  border: 1px solid gray;
+  gap: 12px;
+  display: flex;
+  transition: 0.3s;
+  cursor: pointer;
+  flex-direction: column;
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+}
+
+.post:hover{
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.post_title{
+  font-size: 20px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.post_body{
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.post_title::first-letter, .post_body::first-letter {
+  text-transform: uppercase;
+}

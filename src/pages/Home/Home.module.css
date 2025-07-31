@@ -1,0 +1,63 @@
+.wrapper{
+  gap: 48px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.title{
+  font-size: 32px;
+  line-height:1.5;
+}
+
+.header{
+  padding: 32px 32px 0;
+  display: flex;
+  justify-content: center;
+}
+
+
+.section{
+  gap: 24px;
+  padding :0 32px 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.container{
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.button{
+  cursor: pointer;
+  padding: 8px 24px;
+  border-radius: 8px;
+  border: 0;
+  color: white;
+  transition:  0.3s;
+  background-color:grey;
+}
+
+.button:hover{
+  background-color: black;
+}
+
+.button:disabled{
+  opacity: 0.5;
+}
+
+.button_container{
+  gap: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input{
+  padding: 8px 12px;
+  border-radius: 8px;
+  outline: none;
+  border: 1px solid grey;
+}
