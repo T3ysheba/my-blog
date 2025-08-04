@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, onBeforeMount, watch, computed, nextTick } from "vue";
+import { ref, onBeforeMount, watch, computed, nextTick, onUpdated } from "vue";
 import type { AxiosError } from "axios";
 import { useRoute, useRouter } from "vue-router";
 import { useDebounce } from "@vueuse/core";
@@ -8,7 +8,15 @@ import Flip from "gsap/Flip";
 
 import api from "@/libraries/axios.ts";
 import type { IPostData } from "@/types";
-import { BlogCard, Button, Input, CreatePostModal } from "@/components";
+import {
+  BlogCard,
+  Button,
+  Input,
+  CreatePostModal,
+  Skeleton,
+  EmptyState,
+} from "@/components";
+import * as sea from "node:sea";
 const LIMIT_PER_PAGE = 5;
 
 const route = useRoute();
@@ -27,6 +35,9 @@ const lastPage = computed(() => {
   if (!fetchedPosts.value) return 1;
   return Math.ceil(Number(fetchedPosts.value?.length) / LIMIT_PER_PAGE);
 });
+const isEmpty = computed(
+  () => Array.isArray(fetchedPosts.value) && fetchedPosts.value.length === 0,
+);
 
 const isNextPageDisabled = computed(() => currentPage.value === lastPage.value);
 const isPrevPageDisabled = computed(() => currentPage.value === 1);
@@ -39,6 +50,7 @@ const onNextPageClick = () => {
 
 const toggleModal = (value: boolean) => {
   isModalOpen.value = value;
+  searchQuery.value = "";
 };
 
 const onPrevPageClick = () => {
@@ -123,17 +135,25 @@ const animateSort = async (newPosts: IPostData[]) => {
       </div>
 
       <div ref="listRef" class="blog-list" :class="$style.container">
-        <BlogCard
-          :body="post.body"
-          :title="post.title"
-          :id="post.id"
-          :key="post.id"
-          v-for="post in postsToShow"
-          :search="searchQuery"
-          :changePage="changePage"
-          @animate-sort="animateSort"
-          v-model:fetchedItems="fetchedPosts"
-        />
+        <template v-for="n in 5" :key="n">
+          <Skeleton v-if="loading" width="100%" height="150px" radius="8px" />
+        </template>
+        <template :key="post.id" v-for="post in postsToShow">
+          <BlogCard
+            v-if="!loading"
+            :body="post.body"
+            :title="post.title"
+            :id="post.id"
+            :search="searchQuery"
+            :changePage="changePage"
+            @animate-sort="animateSort"
+            v-model:fetchedItems="fetchedPosts"
+          />
+        </template>
+
+        <EmptyState v-if="!loading && isEmpty">
+          There is no results for "{{ debouncedSearchQuery }}"
+        </EmptyState>
       </div>
 
       <div :class="$style.button_container">
