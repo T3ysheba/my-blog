@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, onBeforeMount, watch, computed, nextTick, onUpdated } from "vue";
+import { ref, onBeforeMount, watch, computed, nextTick } from "vue";
 import type { AxiosError } from "axios";
 import { useRoute, useRouter } from "vue-router";
 import { useDebounce } from "@vueuse/core";
@@ -15,7 +15,9 @@ import {
   CreatePostModal,
   Skeleton,
   EmptyState,
+  Pagination,
 } from "@/components";
+
 const LIMIT_PER_PAGE = 5;
 
 const route = useRoute();
@@ -38,24 +40,9 @@ const isEmpty = computed(
   () => Array.isArray(fetchedPosts.value) && fetchedPosts.value.length === 0,
 );
 
-const isNextPageDisabled = computed(() => currentPage.value === lastPage.value);
-const isPrevPageDisabled = computed(() => currentPage.value === 1);
-
-const onNextPageClick = () => {
-  if (!isNextPageDisabled.value) {
-    currentPage.value++;
-  }
-};
-
 const toggleModal = (value: boolean) => {
   isModalOpen.value = value;
   searchQuery.value = "";
-};
-
-const onPrevPageClick = () => {
-  if (!isPrevPageDisabled.value) {
-    currentPage.value--;
-  }
 };
 
 const changePage = (page: number) => {
@@ -100,7 +87,7 @@ watch(debouncedSearchQuery, (val) => {
 gsap.registerPlugin(Flip);
 
 const animateSort = async (newPosts: IPostData[]) => {
-  const state = Flip.getState(".blog-list > *"); // snapshot current state
+  const state = Flip.getState(".blog-list > *");
 
   fetchedPosts.value = newPosts;
 
@@ -155,23 +142,11 @@ const animateSort = async (newPosts: IPostData[]) => {
         </EmptyState>
       </div>
 
-      <div :class="$style.button_container">
-        <Button
-          :disabled="isPrevPageDisabled"
-          @click="onPrevPageClick"
-          :class="$style.button"
-        >
-          Prev
-        </Button>
-
-        <Button
-          :disabled="isNextPageDisabled"
-          @click="onNextPageClick"
-          :class="$style.button"
-        >
-          Next
-        </Button>
-      </div>
+      <Pagination
+        v-if="!loading && !isEmpty"
+        v-model="currentPage"
+        :totalPages="lastPage"
+      />
     </section>
   </main>
 
