@@ -16,7 +16,6 @@ import {
   Skeleton,
   EmptyState,
 } from "@/components";
-import * as sea from "node:sea";
 const LIMIT_PER_PAGE = 5;
 
 const route = useRoute();
